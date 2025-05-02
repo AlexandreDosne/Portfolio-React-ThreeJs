@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "bootstrap": "^5.3.5",
     "next": "15.3.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
@@ -17,6 +18,7 @@
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "eslint": "^9",
-    "eslint-config-next": "15.3.1"
+    "eslint-config-next": "15.3.1",
+    "react-router-dom": "^7.5.3"
   }
 }

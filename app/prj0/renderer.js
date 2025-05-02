@@ -1,9 +1,9 @@
 "use client";
 
 import React, { useRef, useEffect } from 'react';
-import App from './app';
+import App0 from './app';
 
-const ThreeScene = () =>
+export default function ThreeScene()
 {
     const containerRef = useRef(null);
 
@@ -11,13 +11,13 @@ const ThreeScene = () =>
     {
         if (typeof window !== 'undefined')
         {
-            const app = new App();
+            const app = new App0();
+            const container = containerRef.current;
 
-            containerRef.current?.appendChild(app.renderer.domElement);
+            container?.appendChild(app.renderer.domElement);
 
             const handleMouseDown = (e) =>
             {
-                e.preventDefault();
                 app.HandleMouseClick();
             }
 
@@ -45,6 +45,9 @@ const ThreeScene = () =>
 
             return () =>
             {
+                app.renderer.dispose();
+                container?.removeChild(app.renderer.domElement);
+
                 window.removeEventListener('mousedown', handleMouseDown);
                 window.removeEventListener('pointermove', handleMouseMove);
                 window.removeEventListener('resize', handleResize);
@@ -54,5 +57,3 @@ const ThreeScene = () =>
 
     return <div ref={containerRef} />;
 };
-
-export default ThreeScene;

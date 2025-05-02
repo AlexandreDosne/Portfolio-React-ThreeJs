@@ -1,5 +1,5 @@
-# Projet Portfolio 1
-Projet de démonstration réalisé avec React et ThreeJs.
+# Portfolio React.js + Three.js
+Une collection de projets de démonstration réalisés avec React.js et Three.js.
 
 ## Build
 Afin de lancer l'application, il est nécessaire d'avoir au préalable installé NodeJs.

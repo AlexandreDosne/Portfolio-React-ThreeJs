@@ -12,7 +12,7 @@ const LedDistance = 0.3;
 const SelectSpriteScale = 0.15;
 
 /**
- * Fonction utilitaire pour afficher la hiérarchie d'un objet Three.js, tiré de la doc de Three.js.
+ * Dev: Fonction utilitaire pour afficher la hiérarchie d'un objet Three.js, tiré de la doc de Three.js.
  */
 function dumpObject(obj, lines = [], isLast = true, prefix = '')
 {
@@ -120,6 +120,8 @@ export default class App
         this.controls = new OrbitControls(this.camera, document.body);
         this.controls.enableZoom = true;
         this.controls.enablePan = false;
+        this.controls.enableDamping = true;
+        this.controls.dampingFactor = 0.25;
         this.controls.target.set(0, 1, 0);
         this.controls.update();
 
@@ -291,6 +293,9 @@ export default class App
             this.intersected = null;
 
         }
+
+        // Update de la caméra
+        this.controls.update();
 
         // Rendu de la scène
         this.renderer.clear();
