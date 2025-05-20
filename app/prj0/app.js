@@ -126,7 +126,10 @@ export default class App
         this.controls.minDistance = 2.0;
         this.controls.maxDistance = 5.0;
         this.controls.update();
-        
+
+        this.doLerpToPanel = false;
+        this.lerpTicker = 0;
+
 
         this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
         this.renderer.setSize(window.innerWidth, window.innerHeight);
@@ -177,7 +180,7 @@ export default class App
         loader.load('/mdls/generator.glb', (gltf) =>
         {
             const root = gltf.scene;
-            console.log(dumpObject(root).join('\n'));
+            //console.log(dumpObject(root).join('\n')); // debug
 
             this.scene.add(root);
             this.generator = root.getObjectByName('Base_generator');
@@ -224,6 +227,15 @@ export default class App
 
     HandleMouseClick()
     {
+        // Si on est en train de lerp alors on arrête
+        // pour redonner le contrôle à l'utilisateur
+        if ( this.doLerpToPanel && this.lerpTicker != 0 )
+        {
+            this.doLerpToPanel = false;
+            this.lerpTicker = 0;
+        }
+
+        // Raycast
         if (this.intersected)
         {
             const btn = this.generatorState.GetButtonByName(this.intersected.name);
@@ -250,6 +262,12 @@ export default class App
         this.camera.updateProjectionMatrix();
 
         this.renderer.setSize(width, height);
+    }
+
+    HandleLerpToPanel()
+    {
+        this.doLerpToPanel = true;
+        this.lerpTicker = 0; // pour être sûr
     }
 
     Render()
@@ -297,6 +315,22 @@ export default class App
 
         }
 
+        // Lerp au panel si necessaire
+        if (this.doLerpToPanel)
+        {
+            const target = new THREE.Vector3(0.05, 1.55, 1.92);
+            var current = App.LerpVec3(this.camera.position, target, 0.02);
+
+            this.camera.position.set(current.x, current.y, current.z);
+            this.lerpTicker++;
+
+            if (this.lerpTicker > 1000)
+            {
+                this.doLerpToPanel = false;
+                this.lerpTicker = 0;
+            }
+        }
+
         // Update de la caméra
         this.controls.update();
 
@@ -335,5 +369,16 @@ export default class App
     static Lerp(a, b, t)
     {
         return a + (b - a) * t;
+    }
+
+    static LerpVec3(origin, target, t)
+    {
+        var result = new THREE.Vector3(
+            App.Lerp(origin.x, target.x, t),
+            App.Lerp(origin.y, target.y, t),
+            App.Lerp(origin.z, target.z, t),
+        );
+
+        return result;
     }
 }

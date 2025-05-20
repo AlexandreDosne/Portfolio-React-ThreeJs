@@ -37,17 +37,24 @@ export default function ThreeScene()
                 requestAnimationFrame(renderScene);
             };
 
+            const lerpToPanel = () =>
+            {
+                app.HandleLerpToPanel();
+            };
+
             renderScene();
 
             window.addEventListener('mousedown', handleMouseDown);
             window.addEventListener('pointermove', handleMouseMove);
             window.addEventListener('resize', handleResize);
+            document.getElementById('bLerpToPanel').addEventListener( 'mousedown', lerpToPanel );
 
             return () =>
             {
                 app.renderer.dispose();
                 container?.removeChild(app.renderer.domElement);
 
+                //document.getElementById('bLerpToPanel')?.removeEventListener( 'mousedown', lerpToPanel );
                 window.removeEventListener('mousedown', handleMouseDown);
                 window.removeEventListener('pointermove', handleMouseMove);
                 window.removeEventListener('resize', handleResize);
