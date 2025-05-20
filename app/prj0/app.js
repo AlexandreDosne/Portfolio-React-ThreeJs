@@ -123,7 +123,10 @@ export default class App
         this.controls.enableDamping = true;
         this.controls.dampingFactor = 0.25;
         this.controls.target.set(0, 1, 0);
+        this.controls.minDistance = 2.0;
+        this.controls.maxDistance = 5.0;
         this.controls.update();
+        
 
         this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
         this.renderer.setSize(window.innerWidth, window.innerHeight);
